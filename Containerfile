@@ -53,7 +53,7 @@ RUN /bin/sed -i 's|dl-cdn.alpinelinux.org/alpine/|mirror.math.princeton.edu/pub/
 USER $USER
 WORKDIR /home/$USER
 RUN python -m venv .venv
-COPY certbot-client /home/$USER/.venv/bin/certbot-client
+COPY certbot-client.sh /home/$USER/.venv/bin/certbot-client
 COPY requirements.txt /home/$USER/requirements.txt
 COPY cloudflare.py /home/$USER/.venv/bin/cloudflare
 RUN . /home/$USER/.venv/bin/activate \
