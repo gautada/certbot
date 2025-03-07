@@ -1,0 +1,4 @@
+#!/bin/ash
+. /home/coyote/.venv/bin/activate
+/home/coyote/.venv/bin/certbot | sed 's/^certbot //'
+deactivate

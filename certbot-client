@@ -1,0 +1,61 @@
+#!/bin/sh
+# This script wraps the acme certbot into a simple script
+
+if [ -z "$CERTBOT_EMAIL" ]; then
+    echo "Error: CERTBOT_EMAIL is not set or empty" >&2
+    exit 1
+fi
+
+if [ -z "$CERTBOT_DOMAIN" ]; then
+    echo "Error: CERTBOT_DOMAIN is not set or empty" >&2
+    exit 1
+fi
+
+VAULT="${HOME}/vault"
+if [ ! -z "$CERTBOT_VAULT" ]; then
+    VAULT="$CERTBOT_VAULT"
+fi
+
+
+MODE="TEST"
+# Check if "--production" is provided as a CLI argument
+if [ "$1" == "--production" ]; then
+    MODE="PRODUCTION"
+fi
+
+VERB=$(basename "$0")
+
+CONFIG_DIR="$VAULT/config"
+LOG_DIR="$VAULT/logs"
+WORK_DIR="$VAULT/work"
+
+. $HOME/.venv/bin/activate
+if [ "$MODE" == "PRODUCTION" ]; then
+    $HOME/.venv/bin/certbot $VERB -v \
+    --agree-tos \
+    --manual \
+    --noninteractive \
+    --config-dir="${CONFIG_DIR}" \
+    --logs-dir="${LOG_DIR}" \
+    --work-dir="${WORK_DIR}" \
+    --email="${CERTBOT_EMAIL}" \
+    --manual-auth-hook="${HOME}/.venv/bin/cloudflare" \
+    --preferred-challenges=dns \
+    -d "*.${CERTBOT_DOMAIN}"
+else
+    $HOME/.venv/bin/certbot $VERB -v \
+    --agree-tos \
+    --dry-run \
+    --manual \
+    --noninteractive \
+    --test-cert \
+    --config-dir="${CONFIG_DIR}" \
+    --logs-dir="${LOG_DIR}" \
+    --work-dir="${WORK_DIR}" \
+    --email="${CERTBOT_EMAIL}" \
+    --manual-auth-hook="${HOME}/.venv/bin/cloudflare" \
+    --preferred-challenges=dns \
+    -d "*.${CERTBOT_DOMAIN}"
+fi
+deactivate
+
