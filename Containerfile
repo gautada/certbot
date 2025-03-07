@@ -2,7 +2,7 @@ ARG ALPINE_VERSION=latest
 
 # │ STAGE: CONTAINER
 # ╰――――――――――――――――――――――――――――――――――――――――――――――――――――――
-FROM docker.io/gautada/alpine:$ALPINE_VERSION as CONTAINER
+FROM docker.io/gautada/alpine:$ALPINE_VERSION as _container
 
 # ╭――――――――――――――――――――╮
 # │ VERSION            │
@@ -53,8 +53,9 @@ RUN /bin/sed -i 's|dl-cdn.alpinelinux.org/alpine/|mirror.math.princeton.edu/pub/
 USER $USER
 WORKDIR /home/$USER
 RUN python -m venv .venv
-COPY chatbot-client /home/$USER/.venv/bin/chatbot-client
+COPY certbot-client /home/$USER/.venv/bin/certbot-client
 COPY requirements.txt /home/$USER/requirements.txt
+COPY cloudflare.py /home/$USER/.venv/bin/cloudflare
 RUN . /home/$USER/.venv/bin/activate \
  && /home/$USER/.venv/bin/pip install --upgrade pip \
  && /home/$USER/.venv/bin/pip install -r /home/$USER/requirements.txt \
