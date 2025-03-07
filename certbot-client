@@ -26,18 +26,18 @@ fi
 
 MODE="TEST"
 # Check if "--production" is provided as a CLI argument
-if [ "$1" -eq "--production" ]; then
+if [ "${1}" = "--production" ]; then
     MODE="PRODUCTION"
 fi
 
 VERB=$(basename "$0")
 
-CONFIG_DIR="$VAULT/config"
-LOG_DIR="$VAULT/logs"
-WORK_DIR="$VAULT/work"
+CONFIG_DIR="${VAULT}/config"
+LOG_DIR="${VAULT}/logs"
+WORK_DIR="${VAULT}/work"
 
 . $HOME/.venv/bin/activate
-if [ "$MODE" -eq "PRODUCTION" ]; then
+if [ "${MODE}" = "PRODUCTION" ]; then
     exec "${HOME}/.venv/bin/certbot" "${VERB}" -v \
     --agree-tos \
     --manual \
