@@ -18,8 +18,7 @@ KEY_CFRECORD = "CLOUDFLARE_RECORD"
 KEY_CFVALUE = "CERTBOT_VALIDATION"
 
 
-def update_cloudflare_dns_txt_record(token=None, zone=None,
-                                     record=None, value=None):
+def update_cloudflare_dns_txt_record(token=None, zone=None, record=None, value=None):
     """
     Updates a Cloudflare DNS TXT record.
 
@@ -41,8 +40,7 @@ def update_cloudflare_dns_txt_record(token=None, zone=None,
     API_URL = f"https://api.cloudflare.com/client/v4/zones/{zone}/dns_records"
 
     # Headers for authentication
-    HEADERS = {"Authorization": f"Bearer {token}",
-               "Content-Type": "application/json"}
+    HEADERS = {"Authorization": f"Bearer {token}", "Content-Type": "application/json"}
 
     # Get the TXT record ID
     response = requests.get(
@@ -112,8 +110,7 @@ def main():
 
     try:
         response = update_cloudflare_dns_txt_record(
-            token=args.token, zone=args.zone,
-            record=args.record, value=args.value
+            token=args.token, zone=args.zone, record=args.record, value=args.value
         )
         if response[0]:
             time.sleep(30)
