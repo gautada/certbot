@@ -58,6 +58,7 @@ def update_cloudflare_dns_txt_record(token=None, zone=None, record=None, value=N
     else:
         return (False, f"Failed to update TXT record:{update_data}")
 
+
 def main():
     # for key, value in os.environ.items():
     #     if key.startswith("CERTBOT") or key.startswith("CLOUDFLARE"):
@@ -92,6 +93,7 @@ def main():
             print(response[1])
     except Exception as e:
         print(e)
-    
+
+
 if "__main__" == __name__:
-	main() 
+    main()
