@@ -1,6 +1,14 @@
 #!/bin/sh
 # This script wraps the acme certbot into a simple script
 
+TARGET_USER="yourusername"
+# Check if script is running as root
+if [ "$(id -u)" -eq 0 ]; then
+    echo "Running as root, switching to $TARGET_USER..."
+    exec sudo -u "$TARGET_USER" -- "$0" "$@"
+fi
+echo "Running as $USER"
+
 if [ -z "$CERTBOT_EMAIL" ]; then
     echo "Error: CERTBOT_EMAIL is not set or empty" >&2
     exit 1
@@ -15,7 +23,6 @@ VAULT="${HOME}/vault"
 if [ ! -z "$CERTBOT_VAULT" ]; then
     VAULT="$CERTBOT_VAULT"
 fi
-
 
 MODE="TEST"
 # Check if "--production" is provided as a CLI argument
