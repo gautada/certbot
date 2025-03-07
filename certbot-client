@@ -38,7 +38,7 @@ WORK_DIR="$VAULT/work"
 
 . $HOME/.venv/bin/activate
 if [ "$MODE" -eq "PRODUCTION" ]; then
-    . "${HOME}"/.venv/bin/certbot "${VERB}" -v \
+    exec "${HOME}/.venv/bin/certbot" "${VERB}" -v \
     --agree-tos \
     --manual \
     --noninteractive \
@@ -50,7 +50,7 @@ if [ "$MODE" -eq "PRODUCTION" ]; then
     --preferred-challenges=dns \
     -d "*.${CERTBOT_DOMAIN}"
 else
-    . "${HOME}"/.venv/bin/certbot "${VERB}" -v \
+    exec "${HOME}/.venv/bin/certbot" "${VERB}" -v \
     --agree-tos \
     --dry-run \
     --manual \
