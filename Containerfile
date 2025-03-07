@@ -5,11 +5,19 @@ ARG ALPINE_VERSION=latest
 FROM docker.io/gautada/alpine:$ALPINE_VERSION as CONTAINER
 
 # ╭――――――――――――――――――――╮
+# │ VERSION            │
+# ╰――――――――――――――――――――╯
+ARG IMAGE_VERSION="3.2.0"
+
+# ╭――――――――――――――――――――╮
 # │ METADATA           │
 # ╰――――――――――――――――――――╯
-LABEL source="https://github.com/gautada/homepage-container.git"
-LABEL maintainer="Adam Gautier <adam@gautier.org>"
-LABEL description="A container for a homepage server"
+LABEL org.opencontainers.image.title="certbot"
+LABEL org.opencontainers.image.description="An opinionated implementation of ACME Certbot."
+LABEL org.opencontainers.image.url="https://hub.docker.com/r/gautada/certbot"
+LABEL org.opencontainers.image.source="https://github.com/gautada/certbot"
+LABEL org.opencontainers.image.version="${IMAGE_VERSION}"
+LABEL org.opencontainers.image.license="Upstream"
 
 # ╭――――――――――――――――――――╮
 # │ USER               │
@@ -40,8 +48,8 @@ COPY entrypoint /etc/container/entrypoint
 # ╭――――――――――――――――――――╮
 # │ APPLICATION        │
 # ╰――――――――――――――――――――╯
-RUN /bin/sed -i 's|dl-cdn.alpinelinux.org/alpine/|mirror.math.princeton.edu/pub/alpinelinux/|g' /etc/apk/repositories
-RUN /sbin/apk add --no-cache python3 
+RUN /bin/sed -i 's|dl-cdn.alpinelinux.org/alpine/|mirror.math.princeton.edu/pub/alpinelinux/|g' /etc/apk/repositories \
+ && /sbin/apk add --no-cache python3 
 USER $USER
 WORKDIR /home/$USER
 RUN python -m venv .venv
