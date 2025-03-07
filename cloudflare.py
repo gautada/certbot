@@ -20,7 +20,7 @@ KEY_CFVALUE = "CERTBOT_VALIDATION"
 
 def update_cloudflare_dns_txt_record(token=None, zone=None, record=None, value=None):
     """
-    Updates a Cloudflare DNS TXT record.
+    Updates a Cloudflare DNS TXT record. [Checking pre-commot]
 
     Args:
         to dken (str): Cloudflare API token.
