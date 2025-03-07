@@ -66,20 +66,20 @@ def main():
     # Load environment variables from .env file
     load_dotenv()
     parser = argparse.ArgumentParser(description="Certbot Authorization Hook for Cloudflare.")
-    parser.add_argument("--token", 
-     default=os.environ.get(KEY_CFTOKEN, None),
-     help=f"Cloudflare API token (if not provided, read from environment variable {KEY_CFTOKEN})")
+    parser.add_argument("--token",
+        default=os.environ.get(KEY_CFTOKEN, None),
+        help=f"Cloudflare API token (if not provided, read from environment variable {KEY_CFTOKEN})")
     parser.add_argument("--zone", 
-     default=os.environ.get(KEY_CFZONE, None),
-     help=f"Cloudflare zone id (if not provided, read from environment variable {KEY_CFZONE})")
-    parser.add_argument("--record", 
+        default=os.environ.get(KEY_CFZONE, None),
+        help=f"Cloudflare zone id (if not provided, read from environment variable {KEY_CFZONE})")
+    parser.add_argument("--record",
      default=os.environ.get(KEY_CFRECORD, None),
-     help=f"DNS record name (if not provided, read from environment variable {KEY_CFRECORD})")
-    parser.add_argument("--value", 
-     default=os.environ.get(KEY_CFVALUE, None),
-     help=f"DNS record value (if not provided, read from environment variable {KEY_CFVALUE})")
+        help=f"DNS record name (if not provided, read from environment variable {KEY_CFRECORD})")
+    parser.add_argument("--value",
+        default=os.environ.get(KEY_CFVALUE, None),
+        help=f"DNS record value (if not provided, read from environment variable {KEY_CFVALUE})")
     args = parser.parse_args()
-    
+
     try:
         response = update_cloudflare_dns_txt_record(
             token=args.token,
@@ -87,7 +87,7 @@ def main():
             record=args.record,
             value=args.value
         )
-        if response[0]: 
+        if response[0]:
             time.sleep(30)
         else:
             print(response[1])
