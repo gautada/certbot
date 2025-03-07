@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+
 import argparse
 import json
 import os
@@ -17,8 +18,22 @@ KEY_CFRECORD = "CLOUDFLARE_RECORD"
 KEY_CFVALUE = "CERTBOT_VALIDATION"
 
 
-def update_cloudflare_dns_txt_record(token=None, zone=None, 
-                                     record=None, value=None):
+def update_cloudflare_dns_txt_record(token=None,
+                                     zone=None,
+                                     record=None, 
+                                     value=None)
+    """
+    Updates a Cloudflare DNS TXT record.
+
+    Args: 
+        to dken (str): Cloudflare API token.
+        zone (str): Cloudflare Zone ID.
+        record (str): DNS record name.
+        value (str): DNS record value.
+
+    Returns:
+        tuple: (bool, str) indicating success status and message.
+    """
     assert token is not None, "Cloudflare API token must be provided"
     assert zone is not None, "Cloudflare zone id must be provided"
     assert record is not None, "DNS record name must be provided"
@@ -28,8 +43,7 @@ def update_cloudflare_dns_txt_record(token=None, zone=None,
     API_URL = f"https://api.cloudflare.com/client/v4/zones/{zone}/dns_records"
 
     # Headers for authentication
-    HEADERS = {"Authorization": f"Bearer {token}",
-               "Content-Type": "application/json"}
+    HEADERS = {"Authorization": f"Bearer {token}", "Content-Type": "application/json"}
 
     # Get the TXT record ID
     response = requests.get(
@@ -64,10 +78,9 @@ def update_cloudflare_dns_txt_record(token=None, zone=None,
 
 
 def main():
-    # for key, value in os.environ.items():
-    #     if key.startswith("CERTBOT") or key.startswith("CLOUDFLARE"):
-    #         print(f"{key}: {value}")
-    # Load environment variables from .env file
+    """
+    Main function that parses arguments and updates the Cloudflare .
+    """
     load_dotenv()
     parser = argparse.ArgumentParser(
         description="Certbot Authorization Hook for Cloudflare."
@@ -75,35 +88,33 @@ def main():
     parser.add_argument(
         "--token",
         default=os.environ.get(KEY_CFTOKEN, None),
-        help="Cloudflare API token (if not provided, read from environment " +
-             f"variable {KEY_CFTOKEN})",
+        help="Cloudflare API token (if not provided, read from environment "
+        + f"variable {KEY_CFTOKEN})",
     )
     parser.add_argument(
         "--zone",
         default=os.environ.get(KEY_CFZONE, None),
-        help="Cloudflare zone id (if not provided, read from environment " +
-             f"variable {KEY_CFZONE})",
+        help="Cloudflare zone id (if not provided, read from environment "
+        + f"variable {KEY_CFZONE})",
     )
     parser.add_argument(
         "--record",
         default=os.environ.get(KEY_CFRECORD, None),
-        help="DNS record name (if not provided, read from environment " +
-        f"variable {KEY_CFRECORD})",
+        help="DNS record name (if not provided, read from environment "
+        + f"variable {KEY_CFRECORD})",
     )
     parser.add_argument(
         "--value",
         default=os.environ.get(KEY_CFVALUE, None),
-        help="DNS record value (if not provided, read from environment " +
-        f"variable {KEY_CFVALUE})",
+        help="DNS record value (if not provided, read from environment "
+        + f"variable {KEY_CFVALUE})",
     )
     args = parser.parse_args()
 
     try:
         response = update_cloudflare_dns_txt_record(
-                                                    token=args.token,
-                                                    zone=args.zone,
-                                                    record=args.record,
-                                                    value=args.value)
+            token=args.token, zone=args.zone, record=args.record, value=args.value
+        )
         if response[0]:
             time.sleep(30)
         else:
@@ -112,5 +123,5 @@ def main():
         print(e)
 
 
-if "__main__" == __name__:
+if __name__ == "__main__":
     main()
