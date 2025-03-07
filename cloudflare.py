@@ -1,13 +1,15 @@
 #!/usr/bin/env python3
-import warnings
-# Suppress the specific warning from urllib3
-warnings.filterwarnings("ignore", message=".*NotOpenSSLWarning.*")
 import argparse
 import json
 import os
-import requests
 import time
+import warnings
+
+import requests
 from dotenv import load_dotenv
+
+# Suppress the specific warning from urllib3
+# warnings.filterwarnings("ignore", message=".*NotOpenSSLWarning.*")
 
 KEY_CFTOKEN="CLOUDFLARE_TOKEN"
 KEY_CFZONE="CLOUDFLARE_ZONE"
