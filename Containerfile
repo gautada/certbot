@@ -50,7 +50,7 @@ COPY entrypoint /etc/container/entrypoint
 # ╰――――――――――――――――――――╯
 RUN /bin/sed -i 's|dl-cdn.alpinelinux.org/alpine/|mirror.math.princeton.edu/pub/alpinelinux/|g' /etc/apk/repositories \
  && /sbin/apk add --no-cache python3 
-USER $USER
+
 WORKDIR /home/$USER
 RUN python -m venv .venv
 COPY certbot-client.sh /home/$USER/.venv/bin/certbot-client
@@ -59,6 +59,8 @@ COPY cloudflare.py /home/$USER/.venv/bin/cloudflare
 RUN . /home/$USER/.venv/bin/activate \
  && /home/$USER/.venv/bin/pip install --upgrade pip \
  && /home/$USER/.venv/bin/pip install -r /home/$USER/requirements.txt \
- && deactivate \
- && ln -fsv /home/$USER/.venv/bin/chatbot-client /usr/local/sbin/certonly \
- && ln -fsv /home/$USER/.venv/bin/chatbot-client /usr/local/sbin/renew
+ && deactivate 
+USER root
+RUN ln -fsv /home/$USER/.venv/bin/certbot-client /sbin/certonly \
+ && ln -fsv /home/$USER/.venv/bin/certbot-client /sbin/renew
+USER $USER
