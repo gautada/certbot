@@ -36,7 +36,7 @@ CONFIG_DIR="${VAULT}/config"
 LOG_DIR="${VAULT}/logs"
 WORK_DIR="${VAULT}/work"
 
-source "./.venv/bin/activate"
+source "/home/coyote/.venv/bin/activate"
 if [ "${MODE}" = "PRODUCTION" ]; then
     exec "${HOME}/.venv/bin/certbot" "${VERB}" -v \
     --agree-tos \
