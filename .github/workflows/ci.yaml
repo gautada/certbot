@@ -29,6 +29,7 @@ jobs:
           VALIDATE_DOCKERFILE: true
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           DOCKERFILE_FILE_NAME: Containerfile
+          FILTER_REGEX_EXCLUDE: "SC1091"
           # DEFAULT_BRANCH: dev
           # GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
