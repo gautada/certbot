@@ -3,11 +3,11 @@ import warnings
 # Suppress the specific warning from urllib3
 warnings.filterwarnings("ignore", message=".*NotOpenSSLWarning.*")
 import argparse
-from dotenv import load_dotenv
 import json
 import os
 import requests
 import time
+from dotenv import load_dotenv
 
 KEY_CFTOKEN="CLOUDFLARE_TOKEN"
 KEY_CFZONE="CLOUDFLARE_ZONE"
