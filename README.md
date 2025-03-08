@@ -1,5 +1,8 @@
 # certbot
-Not sure I need something as complex as cert-manager
+Not sure I need something as complex as cert-manager.  This is an 
+opionated certbot implementation. This should conned to LEt's Encrypt
+ACME and generate a signed certificate set via DNS validation. Then finally,
+update the k8s cluster with the updated `tls-crts`.
 
 ## Certbot Authentication Hooks
 
@@ -17,4 +20,5 @@ be in the format `key.domain.tld` the key required is `_acme-challenge`.
 - **Value**: The value to set the record to.  This is provided by certbot and
 passed via environment variable `$CERTBOT_VALIDATION`
 
-**NOTE**: To load a .env file to environment variables `export $(grep -v '^#' _env | xargs)`
+**NOTE**: To load a .env file to environment variables
+`export $(grep -v '^#' _env | xargs)`

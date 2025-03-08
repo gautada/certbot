@@ -7,6 +7,7 @@
 #             [gist](https://gist.github.com/gautada/f185700af585a50b3884ad10c2b02f98)
 
 container_version() {
+ # shellcheck source=/dev/null
  . /home/coyote/.venv/bin/activate
  /home/coyote/.venv/bin/certbot --version | cut -d' ' -f2
  deactivate
