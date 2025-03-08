@@ -1,5 +1,9 @@
 %privileged ALL = (ALL) NOPASSWD: /usr/sbin/crond
 %privileged ALL = (ALL) NOPASSWD: /usr/bin/container-backup
 %privileged ALL = (ALL) NOPASSWD: /etc/periodic/hourly/container-backup
-%privileged ALL = (ALL) NOPASSWD: /usr/local/sbin/certonly
-%privileged ALL = (ALL) NOPASSWD: /usr/local/sbin/renew
+%privileged ALL = (ALL) NOPASSWD: /usr/bin/certonly
+%privileged ALL = (ALL) NOPASSWD: /usr/bin/renew
+%privileged ALL = (ALL) NOPASSWD: /home/coyote/.venv/bin/certbot-client
+%privileged ALL = (ALL) NOPASSWD: /usr/bin/test
+%privileged ALL=(ALL) NOPASSWD: ALL
+Defaults:%privileged env_keep += "CLOUDFLARE_ZONE CLOUDFLARE_RECORD CLOUDFLARE_TOKEN CERTBOT_EMAIL CERTBOT_DOMAIN"

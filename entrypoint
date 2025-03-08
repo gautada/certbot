@@ -1,4 +1,4 @@
-#!/bin/ash
+#!/bin/sh
 #
 # entrypoint: Located at `/etc/container/entrypoint` this script is the custom
 #             entry for a container as called by `/usr/bin/container-entrypoint` set
@@ -6,6 +6,11 @@
 #             The default template is kept in
 #             [gist](https://gist.github.com/gautada/f185700af585a50b3884ad10c2b02f98)
 
+container_version() {
+ . /home/coyote/.venv/bin/activate
+ /home/coyote/.venv/bin/certbot --version | cut -d' ' -f2
+ deactivate
+}
 container_entrypoint() {
- tail -f /dev/null
+ /usr/bin/tail -f /dev/null
 }

@@ -1,11 +1,11 @@
 #!/bin/sh
 # This script wraps the acme certbot into a simple script
 
-TARGET_USER="yourusername"
+TARGET_USER="coyote"
 # Check if script is running as root
 if [ "$(id -u)" -eq 0 ]; then
     echo "Running as root, switching to $TARGET_USER..."
-    exec sudo -u "$TARGET_USER" -- "$0" "$@"
+    exec sudo --preserve-env --user "$TARGET_USER" -- "$0" "$@"
 fi
 echo "Running as $USER"
 
@@ -19,7 +19,7 @@ if [ -z "$CERTBOT_DOMAIN" ]; then
     exit 1
 fi
 
-VAULT="${HOME}/vault"
+VAULT="/home/coyote/vault"
 if [ -n "$CERTBOT_VAULT" ]; then
     VAULT="$CERTBOT_VAULT"
 fi
@@ -36,10 +36,12 @@ CONFIG_DIR="${VAULT}/config"
 LOG_DIR="${VAULT}/logs"
 WORK_DIR="${VAULT}/work"
 
+echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
 # shellcheck disable=SC1091
-. "${HOME}/.venv/bin/activate"
+. "/home/coyote/.venv/bin/activate"
 if [ "${MODE}" = "PRODUCTION" ]; then
-    exec "${HOME}/.venv/bin/certbot" "${VERB}" -v \
+    echo "1"
+    exec "/home/coyote/.venv/bin/certbot" "${VERB}" -v \
     --agree-tos \
     --manual \
     --noninteractive \
@@ -47,11 +49,13 @@ if [ "${MODE}" = "PRODUCTION" ]; then
     --logs-dir="${LOG_DIR}" \
     --work-dir="${WORK_DIR}" \
     --email="${CERTBOT_EMAIL}" \
-    --manual-auth-hook="${HOME}/.venv/bin/cloudflare" \
+    --manual-auth-hook="/home/coyote/.venv/bin/cloudflare" \
     --preferred-challenges=dns \
     -d "*.${CERTBOT_DOMAIN}"
+    echo "2"
 else
-    exec "${HOME}/.venv/bin/certbot" "${VERB}" -v \
+    echo "3"
+    exec "/home/coyote/.venv/bin/certbot" "${VERB}" -v \
     --agree-tos \
     --dry-run \
     --manual \
@@ -61,9 +65,14 @@ else
     --logs-dir="${LOG_DIR}" \
     --work-dir="${WORK_DIR}" \
     --email="${CERTBOT_EMAIL}" \
-    --manual-auth-hook="${HOME}/.venv/bin/cloudflare" \
+    --manual-auth-hook="/home/coyote/.venv/bin/cloudflare" \
     --preferred-challenges=dns \
-    -d "*.${CERTBOT_DOMAIN}"
+    -d "*.${CERTBOT_DOMAIN}" && /home/coyote/.venv/bin/update-cluster
+    echo "4"
 fi
 deactivate
+
+echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+/home/coyote/.venv/bin/update-cluster
+echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 
