@@ -1,8 +1,8 @@
 # certbot
 Not sure I need something as complex as cert-manager.  This is an
-opinionated [certbot]() implementation. This should conned to LEt's Encrypt
-ACME and generate a signed certificate set via DNS validation. Then finally,
-update the k8s cluster with the updated `tls-crts`.
+opinionated [certbot](https://certbot.eff.org) implementation. This should
+connect to Let's Encrypt ACME and generate a signed certificate set via DNS
+validation. Then finally, update the k8s cluster with the updated `tls-crts`.
 
 ## Certbot Authentication Hooks
 
