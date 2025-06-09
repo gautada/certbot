@@ -22,3 +22,11 @@ passed via environment variable `$CERTBOT_VALIDATION`
 
 **NOTE**: To load a .env file to environment variables
 `export $(grep -v '^#' _env | xargs)`
+
+To create the secret ```kubectl create secret tls --namespace ingress tls-certs --cert=fullchain.pem --key=privkey.pem```
+
+To launch the certbot container" ```podman run -it --env-file ./.envs --rm --name certbot --volume Data:/mnt/volumes/container localhost/certbot:dev /bin
+/ash```
+
+Run the renew: ```/usr/bin/renew --production``` to run from scratch ```/usr/bin/certonly```
+
